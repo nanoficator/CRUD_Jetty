@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println(PageGenerator.getInstance().getPage("MainPage", new HashMap<String, Object>()));
+        resp.getWriter().println(PageGenerator.getInstance().getPage("MainPage.html", new HashMap<String, Object>()));
     }
 
     @Override
