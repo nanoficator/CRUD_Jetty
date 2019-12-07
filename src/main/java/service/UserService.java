@@ -41,10 +41,12 @@ public class UserService {
         return false;
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         if (!isExistUserName(user.getUserName())) {
             new UserServiceDAO(sessionFactory.openSession()).addData(user);
+            return true;
         }
+        return false;
     }
 
     public void deleteUser(User user) {
