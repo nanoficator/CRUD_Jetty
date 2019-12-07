@@ -7,11 +7,11 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserDAO {
+public class UserServiceDAO {
 
     Session session;
 
-    public UserDAO(Session session) {
+    public UserServiceDAO(Session session) {
         this.session = session;
     }
 
