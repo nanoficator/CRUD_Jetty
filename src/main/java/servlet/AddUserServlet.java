@@ -45,7 +45,7 @@ public class AddUserServlet extends HttpServlet {
             newUser.setGender(req.getParameter("gender"));
 
             if (UserService.getInstance().addUser(newUser)) {
-                pageVariables.put("message", "Success!");
+                pageVariables.put("message", "User was added!");
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             }
         }

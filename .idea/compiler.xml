@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CRUD_Aplication" />
         <module name="CRUD-приложение" />
+        <module name="CRUD_Aplication" />
       </profile>
     </annotationProcessing>
   </component>
