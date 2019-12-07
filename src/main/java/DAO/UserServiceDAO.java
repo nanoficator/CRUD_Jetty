@@ -40,6 +40,8 @@ public class UserServiceDAO {
     public void deleteData(User user) {
         Transaction transaction = session.beginTransaction();
         session.delete(user);
+        transaction.commit();
+        session.close();
     }
 
     public User findDataByID(Long id) {
@@ -57,6 +59,8 @@ public class UserServiceDAO {
         Query query = session.createQuery("from User where user_name = :user_name");
         query.setParameter("user_name", userName);
         User userFromDB = (User) query.uniqueResult();
+        transaction.commit();
+        session.close();
         return userFromDB;
     }
 }
