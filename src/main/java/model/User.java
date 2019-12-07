@@ -11,8 +11,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "name")
-    private String name;
+    @Column (name = "first_name")
+    private String firstName;
+
+    @Column (name = "second_name")
+    private String secondName;
+
+    @Column (name = "user_name")
+    private String userName;
 
     @Column
     private Long age;
@@ -23,9 +29,11 @@ public class User {
     public User(){
     }
 
-    public User(Long id, String name, Long age, String gender) {
+    public User(Long id, String firstName, String secondName, String userName, Long age, String gender) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.userName = userName;
         this.age = age;
         this.gender = gender;
     }
@@ -38,12 +46,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getAge() {

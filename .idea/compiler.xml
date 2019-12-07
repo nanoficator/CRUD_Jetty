@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CRUD-приложение" />
+        <module name="CRUD_Aplication" />
       </profile>
     </annotationProcessing>
   </component>
