@@ -75,11 +75,11 @@ public class User {
     }
 
     public String getPassword() {
-        return userName;
+        return password;
     }
 
     public void setPassword(String password) {
-        this.userName = password;
+        this.password = password;
     }
 
     public Long getAge() {
@@ -87,7 +87,7 @@ public class User {
     }
 
     public void setAge(Long age) {
-        this.id = age;
+        this.age = age;
     }
 
     public String getGender() {

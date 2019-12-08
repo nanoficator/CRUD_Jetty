@@ -35,7 +35,7 @@ public class UserService {
 
     public boolean isExistUserName(String userName) {
         User userFromDB = new UserServiceDAO(sessionFactory.openSession()).findDataByUserName(userName);
-        if (userFromDB.getId() != 0) {
+        if (userFromDB != null) {
             return true;
         }
         return false;
@@ -55,27 +55,14 @@ public class UserService {
             new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
         }
     }
-     public String [][] createArrayFromDB() {
-        List<User> allUsers = getAllUsers();
-         Iterator<User> iterator = allUsers.iterator();
-        String[][] usersArray = new String[allUsers.size() + 1][6];
-        usersArray[0][0] = "ID";
-        usersArray[0][1] = "First Name";
-        usersArray[0][2] = "Second Name";
-        usersArray[0][3] = "Userame";
-        usersArray[0][4] = "Age";
-        usersArray[0][5] = "Gender";
-        while (iterator.hasNext()) {
-            for (int i = 1; i < allUsers.size() + 1; i++) {
-                User user = iterator.next();
-                usersArray[i][0] = user.getId().toString();
-                usersArray[i][1] = user.getFirstName();
-                usersArray[i][2] = user.getSecondName();
-                usersArray[i][3] = user.getUserName();
-                usersArray[i][4] = user.getAge().toString();
-                usersArray[i][5] = user.getGender();
-            }
+
+    public boolean deleteUserById(Long id) {
+        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).findDataByID(id);
+        if(userFromDB != null) {
+            deleteUser(userFromDB);
+            return true;
         }
-        return usersArray;
-     }
+        return false;
+    }
+
 }

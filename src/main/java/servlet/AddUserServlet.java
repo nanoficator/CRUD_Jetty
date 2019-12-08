@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class AddUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println(PageGenerator.getInstance().getPage("AddUser.html", new HashMap<>()));
+        resp.getWriter().println(PageGenerator.getInstance().getPage("AddUserPage.html", new HashMap<>()));
     }
 
     @Override

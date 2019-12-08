@@ -27,7 +27,7 @@
         document.write("<td>" + table[i].userName + "</td>");
         document.write("<td>" + table[i].age + "</td>");
         document.write("<td>" + table[i].gender + "</td>");
-        document.write("<td>" + '<a href="/delete">Remove</a>' + ' / ' + '<a href="/edit">Edit</a>' + "</td>");
+        document.write("<td>" + "<a href=/delete/user?id=" + table[i].id + ">Remove</a>" + " / " + "<a href=/edit/user?id=" + table[i].id + ">Edit</a>" + "</td>");
         document.writeln("</tr>");
     }
     document.write ("</table> ");
