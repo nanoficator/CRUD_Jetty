@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+
+<a href=/>Back to main page</a>
+
+<form action="/edit/user?id=${id}" method="post">
+    <p>New First Name: <input type="text" name="firstName"> Old: ${firstName}</p>
+    <p>New Second Name: <input type="text" name="secondName"> Old: ${secondName}</p>
+    <p>New Username: <input type="text" name="userName"> Old: ${userName}</p>
+    <p>New Password: <input type="password" name="password"></p>
+    <p>Confirm password: <input type="password" name="confirmPassword"></p>
+    <p>New Age: <input type="number" name="age"> Old: ${age}</p>
+    <p>New Gender:
+        <input type="radio" value="male" name="gender">Male
+        <input type="radio" value="female" name="gender">Female
+        </p>Old: ${gender}
+    <p>Change user: <input type="submit" name="SUBMIT"></p>
+</form>
+
+</body>
+</html>

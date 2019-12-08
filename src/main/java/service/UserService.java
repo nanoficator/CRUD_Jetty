@@ -5,7 +5,6 @@ import model.User;
 import org.hibernate.SessionFactory;
 import util.DBHelper;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class UserService {
@@ -41,12 +40,12 @@ public class UserService {
         return false;
     }
 
-    public boolean addUser(User user) {
+    public String addUser(User user) {
         if (!isExistUserName(user.getUserName())) {
             new UserServiceDAO(sessionFactory.openSession()).addData(user);
-            return true;
+            return "User was added!";
         }
-        return false;
+        return "Username is alredy exist!";
     }
 
     public void deleteUser(User user) {
@@ -63,6 +62,10 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public User findUserByID(Long id) {
+        return new UserServiceDAO(sessionFactory.openSession()).findDataByID(id);
     }
 
 }

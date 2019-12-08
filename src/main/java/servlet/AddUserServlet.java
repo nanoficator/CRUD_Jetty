@@ -44,9 +44,15 @@ public class AddUserServlet extends HttpServlet {
             newUser.setAge(Long.parseLong(req.getParameter("age")));
             newUser.setGender(req.getParameter("gender"));
 
-            if (UserService.getInstance().addUser(newUser)) {
-                pageVariables.put("message", "User was added!");
+            String result = UserService.getInstance().addUser(newUser);
+            if (result.equals("User was added!")) {
+                pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } else if (result.equals("Username is alredy exist!")) {
+                pageVariables.put("message", result);
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
