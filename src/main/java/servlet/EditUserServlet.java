@@ -61,7 +61,16 @@ public class EditUserServlet extends HttpServlet {
             userForChange.setAge(Long.parseLong(req.getParameter("age")));
             userForChange.setGender(req.getParameter("gender"));
 
-            UserService.getInstance().changeUser(userForChange);
+            String result = UserService.getInstance().changeUser(userForChange);
+            if (result.equals("Error: User does not exist!")) {
+                pageVariables.put("message", result);
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                pageVariables.put("message", result);
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_OK);
+            }
         }
     }
 }
