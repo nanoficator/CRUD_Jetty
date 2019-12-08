@@ -9,16 +9,17 @@
 <a href=/>Back to main page</a>
 
 <form action="/edit/user?id=${id}" method="post">
-    <p>New First Name: <input type="text" name="firstName"> Old: ${firstName}</p>
-    <p>New Second Name: <input type="text" name="secondName"> Old: ${secondName}</p>
-    <p>New Username: <input type="text" name="userName"> Old: ${userName}</p>
-    <p>New Password: <input type="password" name="password"></p>
-    <p>Confirm password: <input type="password" name="confirmPassword"></p>
-    <p>New Age: <input type="number" name="age"> Old: ${age}</p>
-    <p>New Gender:
-        <input type="radio" value="male" name="gender">Male
-        <input type="radio" value="female" name="gender">Female
-        </p>Old: ${gender}
+    <p>First Name: <input type="text" value="${firstName}" name="firstName"></p>
+    <p>Second Name: <input type="text" value="${secondName}" name="secondName"></p>
+    <p>Username: <input type="text" value="${userName}" name="userName"></p>
+    <p>Password: <input type="password" value="${password}" name="password"></p>
+    <p>Confirm password: <input type="password" value="${password}" name="confirmPassword"></p>
+    <p>Age: <input type="number" value="${age}" name="age"></p>
+    <p>Gender:
+        <input type="radio" value="${gender}" checked name="gender">${gender}
+        <input type="radio" value="${agender}" name="gender">${agender}
+
+        </p>
     <p>Change user: <input type="submit" name="SUBMIT"></p>
 </form>
 

@@ -21,42 +21,47 @@ public class EditUserServlet extends HttpServlet {
         pageVariables.put("firstName", userToEdit.getFirstName());
         pageVariables.put("secondName", userToEdit.getSecondName());
         pageVariables.put("userName", userToEdit.getUserName());
+        pageVariables.put("password", userToEdit.getPassword());
         pageVariables.put("age", userToEdit.getAge());
         pageVariables.put("gender", userToEdit.getGender());
+        if (userToEdit.getGender().equals("male")) {
+            pageVariables.put("agender", "female");
+        } else {
+            pageVariables.put("agender", "male");
+        }
+
         resp.getWriter().println(PageGenerator.getInstance().getPage("EditUserPage.html", pageVariables));
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, Object> pageVariables = new HashMap<>();
+        HashMap pageVariables = new HashMap();
 
-        User userForEdit = new User();
-        userForEdit.setId(Long.parseLong(req.getParameter("id")));
-        userForEdit.setFirstName(req.getParameter("firstName"));
-        userForEdit.setSecondName(req.getParameter("secondName"));
-        userForEdit.setUserName(req.getParameter("userName"));
-        userForEdit.setPassword(req.getParameter("password"));
-        userForEdit.setAge(Long.parseLong(req.getParameter("age")));
-        userForEdit.setGender(req.getParameter("gender"));
+        if(!req.getParameter("password").equals(req.getParameter("confirmPassword"))) {
+            pageVariables.put("message", "Error: Entered passwords do not match!");
+            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } else if (req.getParameter("firstName").equals("") ||
+                req.getParameter("secondName").equals("") ||
+                req.getParameter("userName").equals("") ||
+                req.getParameter("password").equals("") ||
+                req.getParameter("age").equals("") ||
+                req.getParameter("gender") == null) {
+            pageVariables.put("message", "Error: All fields are required!");
+            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } else {
+            User userForChange = new User();
+            userForChange.setId(Long.parseLong(req.getParameter("id")));
+            userForChange.setFirstName(req.getParameter("firstName"));
+            userForChange.setSecondName(req.getParameter("secondName"));
+            userForChange.setUserName(req.getParameter("userName"));
+            userForChange.setPassword(req.getParameter("password"));
+            userForChange.setAge(Long.parseLong(req.getParameter("age")));
+            userForChange.setGender(req.getParameter("gender"));
 
-        if (!userForEdit.getPassword().equals(req.getParameter("confirmPassword"))) {
-            pageVariables.put("message", "Entered passwords do not match!");
-            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } else if (UserService.getInstance().isExistUserName(userForEdit.getUserName())) {
-            pageVariables.put("message", "Username is alredy exist!");
-            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } else if (userForEdit.getFirstName().equals("") &&
-                userForEdit.getSecondName().equals("") &&
-                userForEdit.getUserName().equals("") &&
-                userForEdit.getPassword().equals("") &&
-                userForEdit.getAge().equals("") &&
-                userForEdit.getGender() == null) {
-            pageVariables.put("message", "At least one field is required for changes!");
-            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            UserService.getInstance().changeUser(userForChange);
         }
     }
 }

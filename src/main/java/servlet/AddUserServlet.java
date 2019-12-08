@@ -23,7 +23,7 @@ public class AddUserServlet extends HttpServlet {
         HashMap<String, Object> pageVariables = new HashMap<>();
 
         if(!req.getParameter("password").equals(req.getParameter("confirmPassword"))) {
-            pageVariables.put("message", "Entered passwords do not match!");
+            pageVariables.put("message", "Error: Entered passwords do not match!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else if (req.getParameter("firstName").equals("") ||
@@ -32,7 +32,7 @@ public class AddUserServlet extends HttpServlet {
                 req.getParameter("password").equals("") ||
                 req.getParameter("age").equals("") ||
                 req.getParameter("gender") == null) {
-            pageVariables.put("message", "All fields are required!");
+            pageVariables.put("message", "Error: All fields are required!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
@@ -49,7 +49,7 @@ public class AddUserServlet extends HttpServlet {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
                 resp.setStatus(HttpServletResponse.SC_OK);
-            } else if (result.equals("Username is alredy exist!")) {
+            } else if (result.equals("Error: Username is already exist!")) {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

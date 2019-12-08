@@ -1,5 +1,6 @@
 package model;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 @Entity
@@ -97,6 +98,4 @@ public class User {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
-
 }

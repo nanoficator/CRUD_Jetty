@@ -1,8 +1,10 @@
 package service;
 
 import DAO.UserServiceDAO;
+import com.sun.xml.internal.ws.server.ServerRtException;
 import model.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import util.DBHelper;
 
 import java.util.List;
@@ -66,6 +68,33 @@ public class UserService {
 
     public User findUserByID(Long id) {
         return new UserServiceDAO(sessionFactory.openSession()).findDataByID(id);
+    }
+
+    public String changeUser(User userForChange) {
+
+        Long id = userForChange.getId();
+        String newFirsName = userForChange.getFirstName();
+        String newSecondName = userForChange.getSecondName();
+        String newUserName = userForChange.getUserName();
+        String newPassword = userForChange.getPassword();
+        Long newAge = userForChange.getAge();
+        String newGender = userForChange.getGender();
+
+        User userFromDB = findUserByID(id);
+
+        if (userFromDB == null) {
+            return "Error: User does not exist!";
+        }
+
+        int count = 0;
+        if (!newFirsName.equals("")) {
+            count += new UserServiceDAO(sessionFactory.openSession()).changeFirstName(id, newFirsName);
+        }
+        if (count > 0) {
+            return "Fields successfully changed";
+        } else {
+            return "User not changes";
+        }
     }
 
 }

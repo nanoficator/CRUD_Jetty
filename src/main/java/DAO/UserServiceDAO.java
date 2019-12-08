@@ -63,4 +63,15 @@ public class UserServiceDAO {
         session.close();
         return userFromDB;
     }
+
+    public int changeFirstName(Long id, String firstName) {
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("update User set firstName = :firsName where id = :id");
+        query.setParameter("firsName", firstName);
+        query.setParameter("id", id);
+        int result = query.executeUpdate();
+        transaction.commit();
+        session.close();
+        return result;
+    }
 }
