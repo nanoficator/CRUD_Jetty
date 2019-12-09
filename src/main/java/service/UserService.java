@@ -45,7 +45,7 @@ public class UserService {
             new UserServiceDAO(sessionFactory.openSession()).addData(user);
             return "User was added!";
         }
-        return "Username is already exist!";
+        return "Error: Username is already exist!";
     }
 
     public void deleteUser(User user) {
