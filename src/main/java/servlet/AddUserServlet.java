@@ -22,37 +22,40 @@ public class AddUserServlet extends HttpServlet {
 
         HashMap<String, Object> pageVariables = new HashMap<>();
 
-        if(!req.getParameter("password").equals(req.getParameter("confirmPassword"))) {
+        String firstName = req.getParameter("firstName");
+        String secondName = req.getParameter("secondName");
+        String userName = req.getParameter("userName");
+        String password = req.getParameter("password");
+        String confirmPassword = req.getParameter("confirmPassword");
+        String age = req.getParameter("age");
+        String gender = req.getParameter("gender");
+
+        if (!password.equals(confirmPassword)) {
             pageVariables.put("message", "Error: Entered passwords do not match!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } else if (req.getParameter("firstName").equals("") ||
-                req.getParameter("secondName").equals("") ||
-                req.getParameter("userName").equals("") ||
-                req.getParameter("password").equals("") ||
-                req.getParameter("age").equals("") ||
-                req.getParameter("gender") == null) {
+        } else if (firstName.equals("") ||
+                secondName.equals("") ||
+                userName.equals("") ||
+                password.equals("") ||
+                age.equals("") ||
+                gender.equals("")) {
             pageVariables.put("message", "Error: All fields are required!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
-            User newUser = new User();
-            newUser.setFirstName(req.getParameter("firstName"));
-            newUser.setSecondName(req.getParameter("secondName"));
-            newUser.setUserName(req.getParameter("userName"));
-            newUser.setPassword(req.getParameter("password"));
-            newUser.setAge(Long.parseLong(req.getParameter("age")));
-            newUser.setGender(req.getParameter("gender"));
+
+            User newUser = new User(firstName, secondName, userName, password, Long.parseLong(age), gender);
 
             String result = UserService.getInstance().addUser(newUser);
-            if (result.equals("User was added!")) {
-                pageVariables.put("message", result);
-                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-                resp.setStatus(HttpServletResponse.SC_OK);
-            } else if (result.equals("Error: Username is already exist!")) {
+            if (result.contains("Error:")) {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                pageVariables.put("message", result);
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_OK);
             }
         }
     }

@@ -1,6 +1,5 @@
 package servlet;
 
-import model.User;
 import service.UserService;
 import util.PageGenerator;
 
@@ -14,27 +13,43 @@ import java.util.HashMap;
 public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HashMap<String, Object> pageVariables = new HashMap<>();
+
         if (req.getPathInfo().contains("all")) {
-            resp.getWriter().println(PageGenerator.getInstance().getPage("DeleteAllPage.html", new HashMap<>()));
+            pageVariables.put("message", "all users");
+            pageVariables.put("id", "all");
+            resp.getWriter().println(PageGenerator.getInstance().getPage("DeletePage.html", pageVariables));
         } else if (req.getPathInfo().contains("user")) {
-            pageVariables.put("id", req.getParameter("id"));
-            resp.getWriter().println(PageGenerator.getInstance().getPage("DeleteUserPage.html", pageVariables));
+            String userName = UserService.getInstance().getUserByID(Long.parseLong(req.getParameter("id"))).getUserName();
+            pageVariables.put("message", "user " + userName);
+            pageVariables.put("id", "user?id=" + req.getParameter("id"));
+            resp.getWriter().println(PageGenerator.getInstance().getPage("DeletePage.html", pageVariables));
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HashMap<String, Object> pageVariables = new HashMap<>();
+
         if (req.getPathInfo().contains("all")) {
             UserService.getInstance().deleteAllUsers();
-            pageVariables.put("message", "Data is clear!");
+            pageVariables.put("message", "Data Base is clear!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_OK);
-        } else if (req.getPathInfo().contains("user")) {
+        }
+
+        if (req.getPathInfo().contains("user")) {
             Long userId = Long.parseLong(req.getParameter("id"));
-            if (UserService.getInstance().deleteUserById(userId)) {
-                pageVariables.put("message", "Success!");
+
+            String result = UserService.getInstance().deleteUserById(userId);
+            if (result.contains("Error:")) {
+                pageVariables.put("message", result);
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
                 resp.setStatus(HttpServletResponse.SC_OK);
             }

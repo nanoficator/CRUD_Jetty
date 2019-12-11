@@ -44,23 +44,18 @@ public class UserService {
         return new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
     }
 
-    public User findUserByUserName(String userName) {
+    public User getUserByUserName(String userName) {
         return new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(userName);
     }
 
     public String addUser(User user) {
 
-        if (user.getFirstName().equals("") ||
-                user.getSecondName().equals("") ||
-                user.getUserName().equals("") ||
-                user.getPassword().equals("") ||
-                user.getAge() == null ||
-                user.getGender().equals("")) {
-            return "Error: All fields are required!";
-        }
-
         if (isExistUserName(user.getUserName())) {
             return "Error: Username exists!";
+        }
+
+        if (user.getAge() < 0) {
+            return "Error: Age can not be negative!";
         }
 
         new UserServiceDAO(sessionFactory.openSession()).addData(user);
@@ -104,7 +99,7 @@ public class UserService {
         String newGender = changedUser.getGender();
 
         User userFromDBById = getUserByID(id);
-        User userFromDBByUserName = UserService.getInstance().findUserByUserName(newUserName);
+        User userFromDBByUserName = UserService.getInstance().getUserByUserName(newUserName);
 
         if (userFromDBById == null) {
             return "Error: User does not exist!";
@@ -118,6 +113,14 @@ public class UserService {
                 newAge == null ||
                 newGender.equals("")) {
             return "Error: All fields are required!";
+        }
+
+        if (userFromDBByUserName != null && !userFromDBByUserName.getId().equals(id)) {
+            return "Error: Username exists!";
+        }
+
+        if (newAge < 0) {
+            return "Error: Age can not be negative!";
         }
 
         new UserServiceDAO(sessionFactory.openSession()).changeFirstName(id, newFirstName);
