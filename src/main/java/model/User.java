@@ -1,6 +1,5 @@
 package model;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 @Entity

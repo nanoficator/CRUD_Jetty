@@ -64,7 +64,7 @@ public class UserServiceDAO {
         return userFromDB;
     }
 
-    public int changeFirstName(Long id, String firstName) {
+    public void changeFirstName(Long id, String firstName) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set firstName = :firstName where id = :id");
         query.setParameter("firstName", firstName);
@@ -72,10 +72,9 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 
-    public int changeSecondName(Long id, String secondName) {
+    public void changeSecondName(Long id, String secondName) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set secondName = :secondName where id = :id");
         query.setParameter("secondName", secondName);
@@ -83,10 +82,9 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 
-    public int changeUserName(Long id, String newUserName) {
+    public void changeUserName(Long id, String newUserName) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set userName = :newUserName where id = :id");
         query.setParameter("newUserName", newUserName);
@@ -94,10 +92,9 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 
-    public int changePassword(Long id, String password) {
+    public void changePassword(Long id, String password) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set password = :password where id = :id");
         query.setParameter("password", password);
@@ -105,10 +102,9 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 
-    public int changeAge(Long id, Long age) {
+    public void changeAge(Long id, Long age) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set age = :age where id = :id");
         query.setParameter("age", age);
@@ -116,10 +112,9 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 
-    public int changeGender(Long id, String gender) {
+    public void changeGender(Long id, String gender) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set gender = :gender where id = :id");
         query.setParameter("gender", gender);
@@ -127,6 +122,5 @@ public class UserServiceDAO {
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return result;
     }
 }

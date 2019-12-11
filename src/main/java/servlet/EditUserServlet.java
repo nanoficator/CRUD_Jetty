@@ -16,7 +16,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> pageVariables = new HashMap<>();
         Long id = Long.parseLong(req.getParameter("id"));
-        User userToEdit = UserService.getInstance().findUserByID(id);
+        User userToEdit = UserService.getInstance().getUserByID(id);
         pageVariables.put("id", id);
         pageVariables.put("firstName", userToEdit.getFirstName());
         pageVariables.put("secondName", userToEdit.getSecondName());

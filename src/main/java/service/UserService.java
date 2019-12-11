@@ -40,31 +40,7 @@ public class UserService {
         return false;
     }
 
-    public String addUser(User user) {
-        if (!isExistUserName(user.getUserName())) {
-            new UserServiceDAO(sessionFactory.openSession()).addData(user);
-            return "User was added!";
-        }
-        return "Error: Username is already exist!";
-    }
-
-    public void deleteUser(User user) {
-        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(user.getUserName());
-        if (userFromDB.getId() != 0) {
-            new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
-        }
-    }
-
-    public boolean deleteUserById(Long id) {
-        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
-        if(userFromDB != null) {
-            deleteUser(userFromDB);
-            return true;
-        }
-        return false;
-    }
-
-    public User findUserByID(Long id) {
+    public User getUserByID(Long id) {
         return new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
     }
 
@@ -72,49 +48,77 @@ public class UserService {
         return new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(userName);
     }
 
-    public String changeUser(User userForChange) {
+    public String addUser(User user) {
 
-        Long id = userForChange.getId();
-        String newFirstName = userForChange.getFirstName();
-        String newSecondName = userForChange.getSecondName();
-        String newUserName = userForChange.getUserName();
-        String newPassword = userForChange.getPassword();
-        Long newAge = userForChange.getAge();
-        String newGender = userForChange.getGender();
+        if (user.getFirstName().equals("") ||
+                user.getSecondName().equals("") ||
+                user.getUserName().equals("") ||
+                user.getPassword().equals("") ||
+                user.getAge() == null ||
+                user.getGender().equals("")) {
+            return "Error: All fields are required!";
+        }
 
-        User userFromDBById = findUserByID(id);
+        if (isExistUserName(user.getUserName())) {
+            return "Error: Username exists!";
+        }
+
+        new UserServiceDAO(sessionFactory.openSession()).addData(user);
+        return "User was added!";
+
+    }
+
+    public String deleteUser(User user) {
+        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(user.getUserName());
+        if (userFromDB.getId() != 0) {
+            new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
+            return "User was deleted!";
+        }
+        return "Error: User does not exist!";
+    }
+
+    public String deleteUserById(Long id) {
+        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
+        if(userFromDB != null) {
+            deleteUser(userFromDB);
+            return "User was deleted!";
+        }
+        return "Error: User does not exist!";
+    }
+
+    public String changeUser(User changedUser) {
+
+        Long id = changedUser.getId();
+        String newFirstName = changedUser.getFirstName();
+        String newSecondName = changedUser.getSecondName();
+        String newUserName = changedUser.getUserName();
+        String newPassword = changedUser.getPassword();
+        Long newAge = changedUser.getAge();
+        String newGender = changedUser.getGender();
+
+        User userFromDBById = getUserByID(id);
         User userFromDBByUserName = UserService.getInstance().findUserByUserName(newUserName);
 
         if (userFromDBById == null) {
             return "Error: User does not exist!";
         }
 
-        int count = 0;
-        if (!newFirstName.equals("")) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changeFirstName(id, newFirstName);
+        if (id == null ||
+                newFirstName.equals("") ||
+                newSecondName.equals("") ||
+                newUserName.equals("") ||
+                newPassword.equals("") ||
+                newAge == null ||
+                newGender.equals("")) {
+            return "Error: All fields are required!";
         }
-        if (!newSecondName.equals("")) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changeSecondName(id, newSecondName);
-        }
-        if (!newUserName.equals("") && userFromDBByUserName == null) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changeUserName(id, newUserName);
-        } else if (!userFromDBByUserName.getId().equals(id)) {
-            return "Error: Username already exist!";
-        }
-        if (!newPassword.equals("")) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changePassword(id, newPassword);
-        }
-        if (newAge != 0) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changeAge(id, newAge);
-        }
-        if (!newGender.equals("")) {
-            count += new UserServiceDAO(sessionFactory.openSession()).changeGender(id, newGender);
-        }
-        if (count > 0) {
-            return "Fields successfully changed";
-        } else {
-            return "User not changes";
-        }
-    }
 
+        new UserServiceDAO(sessionFactory.openSession()).changeFirstName(id, newFirstName);
+        new UserServiceDAO(sessionFactory.openSession()).changeSecondName(id, newSecondName);
+        new UserServiceDAO(sessionFactory.openSession()).changeUserName(id, newUserName);
+        new UserServiceDAO(sessionFactory.openSession()).changePassword(id, newPassword);
+        new UserServiceDAO(sessionFactory.openSession()).changeAge(id, newAge);
+        new UserServiceDAO(sessionFactory.openSession()).changeGender(id, newGender);
+        return "Changes saved!";
+    }
 }
