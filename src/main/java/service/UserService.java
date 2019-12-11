@@ -69,21 +69,28 @@ public class UserService {
     }
 
     public String deleteUser(User user) {
+
         User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(user.getUserName());
-        if (userFromDB.getId() != 0) {
-            new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
-            return "User was deleted!";
+
+        if (userFromDB == null) {
+            return "Error: User does not exist!";
         }
-        return "Error: User does not exist!";
+
+        new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
+        return "User was deleted!";
+
     }
 
     public String deleteUserById(Long id) {
+
         User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
-        if(userFromDB != null) {
-            deleteUser(userFromDB);
-            return "User was deleted!";
+
+        if(userFromDB == null) {
+            return "Error: User does not exist!";
         }
-        return "Error: User does not exist!";
+
+        deleteUser(userFromDB);
+        return "User was deleted!";
     }
 
     public String changeUser(User changedUser) {
