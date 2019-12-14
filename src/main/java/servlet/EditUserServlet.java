@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
+import service.UserServiceHQL;
 import util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class EditUserServlet extends HttpServlet {
         HashMap<String, Object> pageVariables = new HashMap<>();
 
         Long id = Long.parseLong(req.getParameter("id"));
-        User changedUser = UserService.getInstance().getUserByID(id);
+        User changedUser = UserServiceHQL.getInstance().getUserByID(id);
 
         pageVariables.put("id", id);
         pageVariables.put("firstName", changedUser.getFirstName());
@@ -68,7 +68,7 @@ public class EditUserServlet extends HttpServlet {
 
             User changedUser = new User(id, firstName, secondName, userName, password, Long.parseLong(age), gender);
 
-            String result = UserService.getInstance().changeUser(changedUser);
+            String result = UserServiceHQL.getInstance().changeUser(changedUser);
             if (result.contains("Error:")) {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));

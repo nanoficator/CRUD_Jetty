@@ -7,11 +7,11 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserServiceDAO {
+public class UserServiceHQLDAO {
 
     Session session;
 
-    public UserServiceDAO(Session session) {
+    public UserServiceHQLDAO(Session session) {
         this.session = session;
     }
 
@@ -64,20 +64,20 @@ public class UserServiceDAO {
         return userFromDB;
     }
 
-    public void changeFirstName(Long id, String firstName) {
+    public void changeFirstName(Long id, String newFirstName) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set firstName = :firstName where id = :id");
-        query.setParameter("firstName", firstName);
+        query.setParameter("firstName", newFirstName);
         query.setParameter("id", id);
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
     }
 
-    public void changeSecondName(Long id, String secondName) {
+    public void changeSecondName(Long id, String newSecondName) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set secondName = :secondName where id = :id");
-        query.setParameter("secondName", secondName);
+        query.setParameter("secondName", newSecondName);
         query.setParameter("id", id);
         int result = query.executeUpdate();
         transaction.commit();
@@ -94,30 +94,30 @@ public class UserServiceDAO {
         session.close();
     }
 
-    public void changePassword(Long id, String password) {
+    public void changePassword(Long id, String newPassword) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set password = :password where id = :id");
-        query.setParameter("password", password);
+        query.setParameter("password", newPassword);
         query.setParameter("id", id);
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
     }
 
-    public void changeAge(Long id, Long age) {
+    public void changeAge(Long id, Long newAge) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set age = :age where id = :id");
-        query.setParameter("age", age);
+        query.setParameter("age", newAge);
         query.setParameter("id", id);
         int result = query.executeUpdate();
         transaction.commit();
         session.close();
     }
 
-    public void changeGender(Long id, String gender) {
+    public void changeGender(Long id, String newGender) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("update User set gender = :gender where id = :id");
-        query.setParameter("gender", gender);
+        query.setParameter("gender", newGender);
         query.setParameter("id", id);
         int result = query.executeUpdate();
         transaction.commit();

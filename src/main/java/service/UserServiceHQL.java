@@ -1,39 +1,39 @@
 package service;
 
-import DAO.UserServiceDAO;
+import DAO.UserServiceHQLDAO;
 import model.User;
 import org.hibernate.SessionFactory;
 import util.DBHelper;
 
 import java.util.List;
 
-public class UserService {
+public class UserServiceHQL {
 
-    private static UserService userService;
+    private static UserServiceHQL userServiceHQL;
 
     private SessionFactory sessionFactory;
 
-    UserService(SessionFactory sessionFactory) {
+    UserServiceHQL(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public static UserService getInstance() {
-        if (userService == null) {
-            userService = new UserService(DBHelper.getSessionFactory());
+    public static UserServiceHQL getInstance() {
+        if (userServiceHQL == null) {
+            userServiceHQL = new UserServiceHQL(DBHelper.getSessionFactory());
         }
-        return userService;
+        return userServiceHQL;
     }
 
     public List<User> getAllUsers() {
-        return new UserServiceDAO(sessionFactory.openSession()).getAllData();
+        return new UserServiceHQLDAO(sessionFactory.openSession()).getAllData();
     }
 
     public void deleteAllUsers() {
-        new UserServiceDAO(sessionFactory.openSession()).deleteAllData();
+        new UserServiceHQLDAO(sessionFactory.openSession()).deleteAllData();
     }
 
     public boolean isExistUserName(String userName) {
-        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(userName);
+        User userFromDB = new UserServiceHQLDAO(sessionFactory.openSession()).getDataByUserName(userName);
         if (userFromDB != null) {
             return true;
         }
@@ -41,11 +41,11 @@ public class UserService {
     }
 
     public User getUserByID(Long id) {
-        return new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
+        return new UserServiceHQLDAO(sessionFactory.openSession()).getDataByID(id);
     }
 
     public User getUserByUserName(String userName) {
-        return new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(userName);
+        return new UserServiceHQLDAO(sessionFactory.openSession()).getDataByUserName(userName);
     }
 
     public String addUser(User user) {
@@ -58,27 +58,27 @@ public class UserService {
             return "Error: Age can not be negative!";
         }
 
-        new UserServiceDAO(sessionFactory.openSession()).addData(user);
+        new UserServiceHQLDAO(sessionFactory.openSession()).addData(user);
         return "User was added!";
 
     }
 
     public String deleteUser(User user) {
 
-        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByUserName(user.getUserName());
+        User userFromDB = new UserServiceHQLDAO(sessionFactory.openSession()).getDataByUserName(user.getUserName());
 
         if (userFromDB == null) {
             return "Error: User does not exist!";
         }
 
-        new UserServiceDAO(sessionFactory.openSession()).deleteData(userFromDB);
+        new UserServiceHQLDAO(sessionFactory.openSession()).deleteData(userFromDB);
         return "User was deleted!";
 
     }
 
     public String deleteUserById(Long id) {
 
-        User userFromDB = new UserServiceDAO(sessionFactory.openSession()).getDataByID(id);
+        User userFromDB = new UserServiceHQLDAO(sessionFactory.openSession()).getDataByID(id);
 
         if(userFromDB == null) {
             return "Error: User does not exist!";
@@ -99,7 +99,7 @@ public class UserService {
         String newGender = changedUser.getGender();
 
         User userFromDBById = getUserByID(id);
-        User userFromDBByUserName = UserService.getInstance().getUserByUserName(newUserName);
+        User userFromDBByUserName = UserServiceHQL.getInstance().getUserByUserName(newUserName);
 
         if (userFromDBById == null) {
             return "Error: User does not exist!";
@@ -123,12 +123,12 @@ public class UserService {
             return "Error: Age can not be negative!";
         }
 
-        new UserServiceDAO(sessionFactory.openSession()).changeFirstName(id, newFirstName);
-        new UserServiceDAO(sessionFactory.openSession()).changeSecondName(id, newSecondName);
-        new UserServiceDAO(sessionFactory.openSession()).changeUserName(id, newUserName);
-        new UserServiceDAO(sessionFactory.openSession()).changePassword(id, newPassword);
-        new UserServiceDAO(sessionFactory.openSession()).changeAge(id, newAge);
-        new UserServiceDAO(sessionFactory.openSession()).changeGender(id, newGender);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changeFirstName(id, newFirstName);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changeSecondName(id, newSecondName);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changeUserName(id, newUserName);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changePassword(id, newPassword);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changeAge(id, newAge);
+        new UserServiceHQLDAO(sessionFactory.openSession()).changeGender(id, newGender);
         return "Changes saved!";
     }
 }

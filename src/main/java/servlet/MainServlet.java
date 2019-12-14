@@ -2,7 +2,7 @@ package servlet;
 
 import com.google.gson.Gson;
 import model.User;
-import service.UserService;
+import service.UserServiceHQL;
 import util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> allUsers = UserService.getInstance().getAllUsers();
+        List<User> allUsers = UserServiceHQL.getInstance().getAllUsers();
         Gson gson = new Gson();
         String json = gson.toJson(allUsers);
         HashMap<String, Object> pageVariables = new HashMap<>();

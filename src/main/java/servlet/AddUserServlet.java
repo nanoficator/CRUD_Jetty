@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
+import service.UserServiceHQL;
 import util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -47,7 +47,7 @@ public class AddUserServlet extends HttpServlet {
 
             User newUser = new User(firstName, secondName, userName, password, Long.parseLong(age), gender);
 
-            String result = UserService.getInstance().addUser(newUser);
+            String result = UserServiceHQL.getInstance().addUser(newUser);
             if (result.contains("Error:")) {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));

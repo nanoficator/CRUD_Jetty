@@ -1,6 +1,6 @@
 package servlet;
 
-import service.UserService;
+import service.UserServiceHQL;
 import util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ public class DeleteUserServlet extends HttpServlet {
             pageVariables.put("id", "all");
             resp.getWriter().println(PageGenerator.getInstance().getPage("DeletePage.html", pageVariables));
         } else if (req.getPathInfo().contains("user")) {
-            String userName = UserService.getInstance().getUserByID(Long.parseLong(req.getParameter("id"))).getUserName();
+            String userName = UserServiceHQL.getInstance().getUserByID(Long.parseLong(req.getParameter("id"))).getUserName();
             pageVariables.put("message", "user " + userName);
             pageVariables.put("id", "user?id=" + req.getParameter("id"));
             resp.getWriter().println(PageGenerator.getInstance().getPage("DeletePage.html", pageVariables));
@@ -34,7 +34,7 @@ public class DeleteUserServlet extends HttpServlet {
         HashMap<String, Object> pageVariables = new HashMap<>();
 
         if (req.getPathInfo().contains("all")) {
-            UserService.getInstance().deleteAllUsers();
+            UserServiceHQL.getInstance().deleteAllUsers();
             pageVariables.put("message", "Data Base is clear!");
             resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
             resp.setStatus(HttpServletResponse.SC_OK);
@@ -43,7 +43,7 @@ public class DeleteUserServlet extends HttpServlet {
         if (req.getPathInfo().contains("user")) {
             Long userId = Long.parseLong(req.getParameter("id"));
 
-            String result = UserService.getInstance().deleteUserById(userId);
+            String result = UserServiceHQL.getInstance().deleteUserById(userId);
             if (result.contains("Error:")) {
                 pageVariables.put("message", result);
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
