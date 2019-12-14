@@ -6,39 +6,56 @@
 </head>
 <body>
 
-<script>
+<table width="100%" border="0">
 
-    var table = JSON.parse('${table}');
-    var rows = parseInt(${rows});
+    <tr>
+        <th width="50%">HQL</th><th width="50%">SQL</th>
+    </tr>
+    <td>
 
-    document.write ('<table border="1">');
-    document.write("<th>ID</th>");
-    document.write("<th>First Name</th>");
-    document.write("<th>Second Name</th>");
-    document.write("<th>Username</th>");
-    document.write("<th>Age</th>");
-    document.write("<th>Gender</th>");
-    document.write("<th>Options</th>");
-    for (i = 0; i < rows; i++) {
-        document.writeln("<tr>");
-        document.write("<td>" + table[i].id + "</td>");
-        document.write("<td>" + table[i].firstName + "</td>");
-        document.write("<td>" + table[i].secondName + "</td>");
-        document.write("<td>" + table[i].userName + "</td>");
-        document.write("<td>" + table[i].age + "</td>");
-        document.write("<td>" + table[i].gender + "</td>");
-        document.write("<td>" + "<a href=/delete/user?id=" + table[i].id + ">Remove</a>" + " / " + "<a href=/edit/user?id=" + table[i].id + ">Edit</a>" + "</td>");
-        document.writeln("</tr>");
-    }
-    document.write ("</table> ");
+    <script>
 
-</script>
+        var table = JSON.parse('${table}');
+        var rows = parseInt(${rows});
 
-<br>
+        document.write ('<table width="100%" border="1">');
+        document.write("<th>ID</th>");
+        document.write("<th>First Name</th>");
+        document.write("<th>Second Name</th>");
+        document.write("<th>Username</th>");
+        document.write("<th>Age</th>");
+        document.write("<th>Gender</th>");
+        document.write("<th>Options</th>");
+        for (i = 0; i < rows; i++) {
+            document.writeln("<tr>");
+            document.write("<td>" + table[i].id + "</td>");
+            document.write("<td>" + table[i].firstName + "</td>");
+            document.write("<td>" + table[i].secondName + "</td>");
+            document.write("<td>" + table[i].userName + "</td>");
+            document.write("<td>" + table[i].age + "</td>");
+            document.write("<td>" + table[i].gender + "</td>");
+            document.write("<td>" + "<a href=/delete/user?id=" + table[i].id + ">Remove</a>" + " / " + "<a href=/edit/user?id=" + table[i].id + ">Edit</a>" + "</td>");
+            document.writeln("</tr>");
+        }
+        document.write ("</table> ");
 
-<table border="2">
-    <th><a href="/delete/all">CLEAR DATA BASE</a></th>
-    <th><a href="/add">ADD NEW USER</a></th>
+    </script>
+
+    <br>
+
+    <table border="2">
+        <th><a href="/delete/all">CLEAR DATA BASE</a></th>
+        <th><a href="/add">ADD NEW USER</a></th>
+    </table>
+
+    </td>
+
+
+
+    <td>
+
+    </td>
+
 </table>
 
 </body>
