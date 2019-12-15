@@ -16,9 +16,9 @@ public class Main {
 
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletContextHandler.addServlet(new ServletHolder(mainServlet), "/");
-        servletContextHandler.addServlet(new ServletHolder(addUserServlet), "/add");
+        servletContextHandler.addServlet(new ServletHolder(addUserServlet), "/add/*");
         servletContextHandler.addServlet(new ServletHolder(deleteUserServlet), "/delete/*");
-        servletContextHandler.addServlet(new ServletHolder(editUserServlet), "/edit/user");
+        servletContextHandler.addServlet(new ServletHolder(editUserServlet), "/edit/*");
 
         Server server = new Server(8080);
         server.setHandler(servletContextHandler);

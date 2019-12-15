@@ -44,7 +44,7 @@ public class UserServiceSQLDAO {
     }
 
     public void addData(User user) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("insert into users (first_name, second_name, user_name, password, age, gender) values (?, ?, ?, ?, ?, ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into users (first_name, second_name, user_name, password, age, gender) values (?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, user.getFirstName());
         preparedStatement.setString(2, user.getSecondName());
         preparedStatement.setString(3, user.getUserName());
@@ -84,7 +84,7 @@ public class UserServiceSQLDAO {
         PreparedStatement preparedStatement = connection.prepareStatement("select * from users where user_name = ?");
         preparedStatement.setString(1,userName);
         ResultSet resultSet = preparedStatement.getResultSet();
-        if (resultSet.next()) {
+        if (resultSet != null && resultSet.next()) {
             User userByUserName = new User();
             userByUserName.setId(resultSet.getLong(1));
             userByUserName.setFirstName(resultSet.getString(3));

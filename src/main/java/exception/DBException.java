@@ -1,6 +1,8 @@
 package exception;
 
-public class DBException extends Throwable {
+import java.io.IOException;
+
+public class DBException extends IOException {
     public DBException(Throwable throwable) {
         super(throwable);
     }
