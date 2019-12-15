@@ -2,6 +2,7 @@ package servlet;
 
 import model.User;
 import service.UserServiceHQL;
+import service.UserServiceSQL;
 import util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,13 @@ public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HashMap<String, Object> pageVariables = new HashMap<>();
+
+        if (req.getPathInfo().contains("HQL")) {
+            pageVariables.put("QL", "HQL");
+        }
+        if (req.getPathInfo().contains("SQL")) {
+            pageVariables.put("QL", "SQL");
+        }
 
         Long id = Long.parseLong(req.getParameter("id"));
         User changedUser = UserServiceHQL.getInstance().getUserByID(id);
@@ -51,32 +59,65 @@ public class EditUserServlet extends HttpServlet {
         String age = req.getParameter("age");
         String gender = req.getParameter("gender");
 
-        if (!password.equals(confirmPassword)) {
-            pageVariables.put("message", "Error: Entered passwords do not match!");
-            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } else if (firstName.equals("") ||
-                secondName.equals("") ||
-                userName.equals("") ||
-                password.equals("") ||
-                age.equals("") ||
-                gender.equals("")) {
-            pageVariables.put("message", "Error: All fields are required!");
-            resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } else {
-
-            User changedUser = new User(id, firstName, secondName, userName, password, Long.parseLong(age), gender);
-
-            String result = UserServiceHQL.getInstance().changeUser(changedUser);
-            if (result.contains("Error:")) {
-                pageVariables.put("message", result);
+        if (req.getPathInfo().contains("HQL")) {
+            if (!password.equals(confirmPassword)) {
+                pageVariables.put("message", "Error: Entered passwords do not match!");
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else if (firstName.equals("") ||
+                    secondName.equals("") ||
+                    userName.equals("") ||
+                    password.equals("") ||
+                    age.equals("") ||
+                    gender.equals("")) {
+                pageVariables.put("message", "Error: All fields are required!");
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             } else {
-                pageVariables.put("message", result);
+
+                User changedUser = new User(id, firstName, secondName, userName, password, Long.parseLong(age), gender);
+
+                String result = UserServiceHQL.getInstance().changeUser(changedUser);
+                if (result.contains("Error:")) {
+                    pageVariables.put("message", result);
+                    resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                } else {
+                    pageVariables.put("message", result);
+                    resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                }
+            }
+        }
+
+        if (req.getPathInfo().contains("SQL")) {
+            if (!password.equals(confirmPassword)) {
+                pageVariables.put("message", "Error: Entered passwords do not match!");
                 resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
-                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else if (firstName.equals("") ||
+                    secondName.equals("") ||
+                    userName.equals("") ||
+                    password.equals("") ||
+                    age.equals("") ||
+                    gender.equals("")) {
+                pageVariables.put("message", "Error: All fields are required!");
+                resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+
+                User changedUser = new User(id, firstName, secondName, userName, password, Long.parseLong(age), gender);
+
+                String result = new UserServiceSQL().changeUser(changedUser);
+                if (result.contains("Error:")) {
+                    pageVariables.put("message", result);
+                    resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                } else {
+                    pageVariables.put("message", result);
+                    resp.getWriter().println(PageGenerator.getInstance().getPage("ResultPage.html", pageVariables));
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                }
             }
         }
     }

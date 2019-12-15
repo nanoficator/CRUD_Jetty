@@ -17,6 +17,13 @@ public class DeleteUserServlet extends HttpServlet {
 
         HashMap<String, Object> pageVariables = new HashMap<>();
 
+        if (req.getPathInfo().contains("HQL")) {
+            pageVariables.put("QL", "HQL");
+        }
+        if (req.getPathInfo().contains("SQL")) {
+            pageVariables.put("QL", "SQL");
+        }
+
         if (req.getPathInfo().contains("all")) {
             pageVariables.put("message", "all users");
             pageVariables.put("id", "all");
@@ -24,7 +31,7 @@ public class DeleteUserServlet extends HttpServlet {
         } else if (req.getPathInfo().contains("user")) {
             String userName = UserServiceHQL.getInstance().getUserByID(Long.parseLong(req.getParameter("id"))).getUserName();
             pageVariables.put("message", "user " + userName);
-            pageVariables.put("id", "user?id=" + req.getParameter("id"));
+            pageVariables.put("id", "user?id" + req.getParameter("id"));
             resp.getWriter().println(PageGenerator.getInstance().getPage("DeleteUserPage.html", pageVariables));
         }
     }

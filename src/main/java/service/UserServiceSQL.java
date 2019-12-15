@@ -108,8 +108,13 @@ public class UserServiceSQL {
             return "Error: User does not exist!";
         }
 
-        deleteUser(userFromDB);
-        return "User was deleted!";
+        UserServiceSQLDAO dao = getUserServiceSQLDAO();
+        try {
+            dao.deleteData(userFromDB);
+            return "User was deleted!";
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     public String changeUser(User changedUser) throws DBException {

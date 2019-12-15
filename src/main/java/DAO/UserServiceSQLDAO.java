@@ -65,6 +65,7 @@ public class UserServiceSQLDAO {
     public User getDataById(Long id) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("select * from users where id = ?");
         preparedStatement.setLong(1, id);
+        preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
         if (resultSet.next()) {
             User userById = new User();
@@ -83,8 +84,9 @@ public class UserServiceSQLDAO {
     public User getDataByUserName (String userName) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("select * from users where user_name = ?");
         preparedStatement.setString(1,userName);
+        preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
-        if (resultSet != null && resultSet.next()) {
+        if (resultSet.next()) {
             User userByUserName = new User();
             userByUserName.setId(resultSet.getLong(1));
             userByUserName.setFirstName(resultSet.getString(3));
