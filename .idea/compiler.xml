@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CRUD-приложение" />
+        <module name="CRUD_Tomcat" />
+        <module name="CRUD_Jetty" />
         <module name="CRUD_Aplication" />
       </profile>
     </annotationProcessing>
