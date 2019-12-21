@@ -31,7 +31,7 @@ public class DeleteUserServlet extends HttpServlet {
         } else if (req.getPathInfo().contains("user")) {
             String userName = UserServiceHQL.getInstance().getUserByID(Long.parseLong(req.getParameter("id"))).getUserName();
             pageVariables.put("message", "user " + userName);
-            pageVariables.put("id", "user?id" + req.getParameter("id"));
+            pageVariables.put("id", "user?id=" + req.getParameter("id"));
             resp.getWriter().println(PageGenerator.getInstance().getPage("DeleteUserPage.html", pageVariables));
         }
     }
